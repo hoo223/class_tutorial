@@ -46,6 +46,7 @@ import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
+from moveit_msgs.msg import Constraints, PositionConstraint
 import geometry_msgs.msg
 from std_msgs.msg import String
 from geometry_msgs.msg import Quaternion
@@ -206,6 +207,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     pose_goal.position.x = 0.5
     pose_goal.position.y = 0.4
     pose_goal.position.z = 0.4
+    print(pose_goal)
 
     move_group.set_pose_target(pose_goal)
 
@@ -241,6 +243,15 @@ class MoveGroupPythonIntefaceTutorial(object):
     pose_goal.position.y = -0.1
 
     move_group.set_pose_target(pose_goal)
+    
+    # constraints = Constraints()
+    # constraints.name = "Keep vertical position"
+    # position_constraint = PositionConstraint()
+    # position_constraint.header = move_group.get_current_pose().header
+    # position_constraint.link_name = 'ee_link'
+    # position_constraint.target_point_offset.z = 0.01
+    # constraints.position_constraints = [position_constraint]
+    # move_group.set_path_constraints(constraints)
 
     ## Now, we call the planner to compute the plan and execute it.
     plan = move_group.go(wait=True)
